@@ -4,7 +4,7 @@ namespace API.Controllers
 {
       [ApiController]
       [Route("api/[controller]")]//Actuall controller is replaced with word controller
-    public class BaseApiController: ControllerBase
+    public class BaseApiController: ControllerBase // AllControllers are derived from ControllerBase
     {
       
     }
