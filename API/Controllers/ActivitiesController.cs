@@ -1,34 +1,49 @@
 using Domain;
 using Microsoft.AspNetCore.Mvc;
-using Persistence;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+using Application.Activities;
 
 namespace API.Controllers
 {
     public class ActivitiesController : BaseApiController
     {
-        
-        private readonly DataContext _context;
 
-        public ActivitiesController(DataContext context)//Inject datacontext here so we can query db directly here and return activities
-        {
-            _context = context;
-        }
 
         [HttpGet]
 
         public async Task<ActionResult<List<Activity>>> GetActivities()//returning List of activities 
         {
 
-            return await _context.Activities.ToListAsync();
+            return await Mediator.Send(new List.Query());
         }
 
         [HttpGet("{id}")]//Can pass id to fetch particular activity
         public async Task<ActionResult<Activity>> GetActivity(Guid id)
         {
-            return await _context.Activities.FindAsync(id);
+            return await Mediator.Send(new Details.Query{Id=id});
         }
+
+        [HttpPost]
+        public async  Task<IActionResult> CreateActivity (Activity activity)
+        //API Controller Attribute checks the properties of data we send and Activity properties, if matches it passes as a parameter
+        // Here we are not returing anything
+        // IActionResult means response return like ok bad request
+        {
+            return Ok(await Mediator.Send(new Create.Command {Activity=activity}));
+        }
+
+        [HttpPut("{id}")]
+
+        public async Task<IActionResult> Edit (Guid id,Activity activity)
+        {
+            activity.Id=id;
+            return Ok(await Mediator.Send(new Edit.Command {Activity=activity}));
+        }
+
+      [HttpDelete("{id}")]
+       public async Task<IActionResult> Delete (Guid id)
+      {
+        return Ok(await Mediator.Send(new Delete.Command {Id=id}));
+      }
+
     }
 }
