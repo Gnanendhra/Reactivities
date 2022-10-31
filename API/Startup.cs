@@ -18,12 +18,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Persistence;
-
-
-
-
-
-
+using FluentValidation.AspNetCore;
+using API.Middleware;
 
 namespace API
 {
@@ -38,17 +34,25 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+             services.AddControllers().AddFluentValidation(config => 
+            {
+                config.RegisterValidatorsFromAssemblyContaining<Create>();//mentioning from where fluentvalidation cmg 
+            });
             services.AddApplicationServices(_config);
            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        //all methods inside configure method are middleware that handle https requests
+        //In below middlewares if there is any exception arises it will move to  app.UseMiddleware<ExceptionMiddleware>();
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            app.UseMiddleware<ExceptionMiddleware>();
+
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+               
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPIv5 v1"));
             }

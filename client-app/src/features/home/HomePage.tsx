@@ -6,7 +6,7 @@ export default function HomePage() {
     return (
         <Segment inverted textAlign='center' vertical className='masthead'>
             <Container text>
-                <Header as='h1' inverted>
+                <Header className='header1' inverted as='h1'>
                     <Image size='massive' src='/assests/logo.png' alt='logo' style={{marginBottom: 12}} />
                     Reactivities
                 </Header>

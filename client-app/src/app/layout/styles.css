@@ -13,6 +13,7 @@ body{
   box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
 }
 
+/* Homepage-styles */
 .masthead {
   display: flex;
   align-items: center;
@@ -30,12 +31,21 @@ body{
   margin-left: 0.5em;
 }
 
+
 .masthead h1.ui.header {
   font-size: 4em;
   font-weight: normal;
 }
 
+.header1
+{
+  font-size: 4em;
+  font-weight: normal; 
+}  
+
 .masthead h2 {
   font-size: 1.7em;
   font-weight: normal;
 }
+
+/* End of homepage styles */

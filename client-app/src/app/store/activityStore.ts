@@ -43,6 +43,7 @@ export default class ActivityStore
     this.setLoadingInitial(true);
        try {
         const activities= await agent.Activities.list();//agent will return promises, so we need use await
+        console.log(activities)
         activities.forEach(activity=>{
            this.setActivity(activity);
             
