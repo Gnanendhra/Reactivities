@@ -49,3 +49,7 @@ body{
 }
 
 /* End of homepage styles */
+
+.react-datepicker-wrapper {
+  width: 100%;
+}

@@ -4,6 +4,7 @@ import { Activity } from "../models/activity"
 
 export default class ActivityStore
 {
+    //Observable properties
     activityRegistry = new Map<string,Activity>() ;
     selectedActivity:Activity|undefined=undefined;
     editMode=false;
@@ -13,12 +14,16 @@ export default class ActivityStore
 
     constructor()
     {
+        //below is observable function used to make above properties to observable means any componnet can use it
         makeAutoObservable(this)
     }
 
+    //below are actions used to update observable properties
+    //below functions we can call from components
     get activityByDate()
     {
-      return Array.from(this.activityRegistry.values()).sort((a,b)=>Date.parse(a.date)-Date.parse(b.date));
+      return Array.from(this.activityRegistry.values()).sort((a,b)=>
+      a.date!.getTime() - b.date!.getTime());
     }
 
     get groupedActivities()
@@ -27,8 +32,8 @@ export default class ActivityStore
         return Object.entries(
             this.activityByDate.reduce((activities,activity)=>
             {
-                const date=activity.date;
-                activities[date] =activities[date] ? [...activities[date],activity] : [activity];
+               const date=activity.date?.toISOString().split('T')[0];
+                activities[date!] =activities[date!] ? [...activities[date!],activity] : [activity];
                
                 return activities;
             },{} as {[key:string]: Activity[]})
@@ -80,7 +85,8 @@ export default class ActivityStore
 
     private setActivity=(activity:Activity)=>
     {
-        activity.date=activity.date.split('T')[0];
+       // activity.date=activity.date.split('T')[0];
+       activity.date = new Date(activity.date!);
         //this.activities.push(activity)
         this.activityRegistry.set(activity.id,activity);
     }
