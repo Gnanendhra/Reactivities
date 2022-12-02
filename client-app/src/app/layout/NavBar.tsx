@@ -14,7 +14,7 @@ import { useStore } from '../store/store';
     <Menu inverted fixed='top' style={{Text:'center'}}>
         <Container>
             <Menu.Item header as ={NavLink} to ='/' exact>
-               <img src="/assests/logo.png" alt='logo' style={{marginRight:'10px'}}/>
+               <img src="/assets/logo.png" alt='logo' style={{marginRight:'10px'}}/>
                Reactivities
             </Menu.Item>
             <Menu.Item name="Activities" as={NavLink} to='/activities'/>
